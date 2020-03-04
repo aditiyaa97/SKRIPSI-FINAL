@@ -3,7 +3,7 @@ import numpy as np
 from PIL import Image
 import PIL
 
-image = cv2.imread('image/Test.jpg')
+image = cv2.imread('Proposal_Aditiya.jpeg')
 print(image)
 # image = cv2.resize(image_original,None,fx=4, fy=4, interpolation = cv2.INTER_CUBIC)
 cv2.namedWindow("Image")
@@ -48,25 +48,10 @@ ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_
 sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[1])
 
 #read lines
-ctr_word=0
-ctr_line=0
 for i, ctr in enumerate(sorted_ctrs):
-    ctr_line=ctr_line+1
 
-     
-    if(ctr_line<4):
-        print("test")
-
-    #function compare segment dengan gambar
-
-    if(ctr_line>6):
-        break
     # Get bounding box
     x, y, w, h = cv2.boundingRect(ctr)
-    # print (x)
-    # print (y)
-    # print (w)
-    # print (h)
 
     # Getting ROI
     roi = image[y:y+h, x:x+w]
@@ -76,5 +61,5 @@ for i, ctr in enumerate(sorted_ctrs):
     
     cv2.imshow('segment no:' +str(i),roi)
     cv2.imwrite(str(i) + " .jpg", roi )
-    print(i)
+    
     cv2.waitKey(0)

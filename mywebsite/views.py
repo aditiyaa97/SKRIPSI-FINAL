@@ -2,19 +2,27 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
 from wand.image import Image as Img
-from PIL import Image
+from PIL import Image, ImageEnhance
 import cv2
 import numpy as np
 import os
-# importing all the required modules
-import PyPDF2
+#BoundingObject
+import pytesseract
+#RemoveLogo
+from skimage.io import imread, imshow, imsave
+from skimage.color import rgb2gray
+from skimage import img_as_float
+from skimage.morphology import disk
+from matplotlib import pyplot as plt
+#YOLO
 import tensorflow
+
 
 
 UPLOAD_FOLDER = 'C:/Users/Aditiya/SKRIPSI/mywebsite/' # plus MEDIA_URL
 ALLOWED_EXTENSION = set(['pdf'])
-SAVE_GRAYSCALE = 'C:/Users/Aditiya/SKRIPSI/mywebsite/grayscale'
-SAVE_BOUNDING = 'C:/Users/Aditiya/SKRIPSI/mywebsite/boundingbox'
+SAVE_REMOVELOGO = 'C:/Users/Aditiya/SKRIPSI/mywebsite/removelogo/'
+SAVE_BOUNDING = 'C:/Users/Aditiya/SKRIPSI/mywebsite/boundingbox/'
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -36,9 +44,15 @@ def upload(request):
         with Img(filename=UPLOAD_FOLDER+context['url'], resolution=300) as pic:
             with Img(pic.sequence[0]) as first_page:
                 first_page.save(filename=UPLOAD_FOLDER+context['img'])
-                gray(fs,UPLOAD_FOLDER,context,nama_file)
-                boundingbox(fs,UPLOAD_FOLDER,context)
-
+                removelogo(fs,UPLOAD_FOLDER,context,nama_file)
+                kode1(fs,SAVE_REMOVELOGO,context,nama_file)
+                kode2(fs,SAVE_REMOVELOGO,context,nama_file)
+                proposal(fs,SAVE_REMOVELOGO,context,nama_file)
+                judul(fs,SAVE_REMOVELOGO,context,nama_file)
+                nama(fs,SAVE_REMOVELOGO,context,nama_file)
+                nim(fs,SAVE_REMOVELOGO,context,nama_file)
+                fakultas(fs,SAVE_REMOVELOGO,context,nama_file)
+                tahun(fs,SAVE_REMOVELOGO,context,nama_file)
                 #print(path)
                 #print(upload_file.name)
                 #print(nama_file)
@@ -46,80 +60,105 @@ def upload(request):
                 #print(UPLOAD_FOLDER + context['img'])
     return render(request, 'upload.html', context)
 
-def gray(fs,UPLOAD_FOLDER,context,nama_file):
-    img = cv2.imread(UPLOAD_FOLDER + context['img'])
-    gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    
-    cv2.imwrite (os.path.join(SAVE_GRAYSCALE, nama_file), gray_img)
+def removelogo(fs,UPLOAD_FOLDER,context,nama_file):
+    gambar = img_as_float(imread(UPLOAD_FOLDER + context['img']))
+    idx_old = 0
+    idx_new = 0
+    for idxr, row in enumerate(gambar):
+        new_row = []
+        for idxc, column in enumerate(row):
+            new_column = []
+            if np.sum(column)/3 > 0.1:
+                row[idxc] = [1.0, 1.0, 1.0]
+                idx_old+=1
+    gambar[idxr] = row
+    new_gambar = gambar * 255
+    imsave(os.path.join(SAVE_REMOVELOGO + nama_file), new_gambar)
+    return new_gambar
 
-    return gray_img
+def kode1(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    kode1x1 = 2008.17
+    kode1y1 = 99.9658
+    kode1x2 = 2378.5
+    kode1y2 = 158.305
+    kode1 = im.crop((kode1x1,kode1y1,kode1x2,kode1y2))
+    var = (pytesseract.image_to_string(kode1))
+    print(var)
+    return var
 
-def boundingbox(fs,UPLOAD_FOLDER,context):
-    image = cv2.imread(UPLOAD_FOLDER + context['img'])
-    #print(image)
-    # image = cv2.resize(image_original,None,fx=4, fy=4, interpolation = cv2.INTER_CUBIC)
-    #cv2.namedWindow("Image")
-    #cv2.imshow('Image',image)
-    # image = cv2.resize(image_original,None,fx=4, fy=4, interpolation = cv2.INTER_CUBIC)
+def kode2(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    kode2x1 = 2009.02
+    kode2y1 = 176.06
+    kode2x2 = 2376.81
+    kode2y2 = 230.172
+    kode2 = im.crop((kode2x1,kode2y1,kode2x2,kode2y2))
+    var_kode2 = (pytesseract.image_to_string(kode2))
+    print(var_kode2)
+    return var_kode2
 
-    #grayscale
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    # original_resized = cv2.resize(gray, (0,0), fx=.2, fy=.2)
-    #cv2.imshow('gray',gray)
-    #cv2.waitKey(0)
+def proposal(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    proposalx1 = 1013.64
+    proposaly1 = 578.19
+    proposalx2 = 1589.07
+    proposaly2 = 638.95
+    proposal = im.crop((proposalx1,proposaly1,proposalx2,proposaly2))
+    var_proposal = (pytesseract.image_to_string(proposal))
+    print(var_proposal)
+    return var_proposal
 
-    #Remove Salt and pepper noise
-    saltpep = cv2.fastNlMeansDenoising(gray,None,9,13)
-    # original_resized = cv2.resize(saltpep, (0,0), fx=.2, fy=.2)
-    #cv2.imshow('Grayscale',saltpep)
-    #cv2.waitKey(0)
+def judul(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    judulx1 = 466.044
+    juduly1 = 680.645
+    judulx2 = 2135.36
+    juduly2 = 1133.64
+    judul = im.crop((judulx1,juduly1,judulx2,juduly2))
+    var_judul = (pytesseract.image_to_string(judul))
+    return var_judul
 
-    #blur
-    blured = cv2.blur(saltpep,(3,3))
-    # original_resized = cv2.resize(blured, (0,0), fx=.2, fy=.2)
-    #cv2.imshow('blured',blured)
-    #cv2.waitKey(0)
+def nama(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    namax1 = 901.897
+    namay1 = 2164.83
+    namax2 = 1721.01
+    namay2 = 2251.76
+    nama = im.crop((namax1,namay1,namax2,namay2))
+    val_nama = (pytesseract.image_to_string(nama))
+    print(val_nama)
+    return val_nama
 
-    #binary
-    ret,thresh = cv2.threshold(gray,127,255,cv2.THRESH_BINARY_INV)
-    # original_resized = cv2.resize(thresh, (0,0), fx=.2, fy=.2)
-    #cv2.imshow('Threshold',thresh)
-    #cv2.waitKey(0)
+def nim(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    nimx1 = 1062.75
+    nimy1 = 2267.54
+    nimx2 = 1529.7
+    nimy2 = 2376.11
+    nim = im.crop((nimx1,nimy1,nimx2,nimy2))
+    val_nim = (pytesseract.image_to_string(nim))
+    print(val_nim)
+    return val_nim
 
-    #dilation
-    kernel = np.ones((5,100), np.uint8)
-    img_dilation = cv2.dilate(thresh, kernel, iterations=1)
-    # original_resized = cv2.resize(img_dilation, (0,0), fx=.2, fy=.2)
-    #cv2.imshow('dilated',img_dilation)
-    #cv2.waitKey(0)
+def fakultas(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    fakultasx1 = 628.898
+    fakultasy1 = 2519.17
+    fakultasx2 = 1945.13
+    fakultasy2 = 2923.11
+    fakultas = im.crop((fakultasx1,fakultasy1,fakultasx2,fakultasy2))
+    val_fakultas = (pytesseract.image_to_string(fakultas))
+    print(val_fakultas)
+    return val_fakultas
 
-    #find contours
-    ctrs, hier = cv2.findContours(img_dilation.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-    #sort contours
-    sorted_ctrs = sorted(ctrs, key=lambda ctr: cv2.boundingRect(ctr)[1])
-
-    #read lines
-    #ctr_word=0
-    ctr_line=0
-
-    for i, ctr in enumerate(sorted_ctrs):
-        ctr_line=ctr_line+1
-        if(ctr_line<4):
-            print(ctr_line)
-        #function compare segment dengan gambar
-        if(ctr_line>6):
-            break
-        # Get bounding box
-        x, y, w, h = cv2.boundingRect(ctr)
-    
-        # Getting ROI
-        roi = image[y:y+h, x:x+w]
-        ##   show ROI
-        #image = image.save(ctr_line + ".jpg")
-        
-        #cv2.imshow('segment no:' +str(i),roi)
-        cv2.imwrite(str(i) + SAVE_BOUNDING + " .jpg", roi) #kendalanya tidak dapat ke simpan pada path (SAVE_BOUNDING)
-        #cv2.waitKey(0)
-    return roi
-
+def tahun(fs,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    tahunx1 = 1223.32
+    tahuny1 = 2943.93
+    tahunx2 = 1391.19
+    tahuny2 = 3033.86
+    tahun = im.crop((tahunx1,tahuny1,tahunx2,tahuny2))
+    val_tahun = (pytesseract.image_to_string(tahun))
+    print(val_tahun)
+    return val_tahun
