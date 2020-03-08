@@ -365,10 +365,7 @@ def fakultas():
     fakultasy2 = 2923.11
     fakultas = im.crop((fakultasx1,fakultasy1,fakultasx2,fakultasy2))
     val_fakultas = (pytesseract.image_to_string(fakultas))
-    print(val_fakultas)
-    template = "PROGRAM STUDI INFORMATIKA \nFAKULTAS TEKNIK DAN INFORMATIKA \nUNIVERSITAS MULTIMEDIA NUSANTARA \nTANGERANG "
-    print(template)
-    if(val_fakultas==template):
+    if('MULTIMEDIA' in val_fakultas):
         print("Penamaan Kampus Sesuai")
     else:
         print("Fakultas Tidak Sesuai")

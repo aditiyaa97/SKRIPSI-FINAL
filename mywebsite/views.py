@@ -18,11 +18,10 @@ from matplotlib import pyplot as plt
 import tensorflow
 
 
-
 UPLOAD_FOLDER = 'C:/Users/Aditiya/SKRIPSI/mywebsite/' # plus MEDIA_URL
 ALLOWED_EXTENSION = set(['pdf'])
 SAVE_REMOVELOGO = 'C:/Users/Aditiya/SKRIPSI/mywebsite/removelogo/'
-SAVE_BOUNDING = 'C:/Users/Aditiya/SKRIPSI/mywebsite/boundingbox/'
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -87,15 +86,16 @@ def kode1(fs,SAVE_REMOVELOGO,context,nama_file):
     print(var)
     return var
 
-def kode2(fs,SAVE_REMOVELOGO,context,nama_file):
+def kode2(fa,SAVE_REMOVELOGO,context,nama_file):
     im = Image.open(SAVE_REMOVELOGO + nama_file)
-    kode2x1 = 2009.02
-    kode2y1 = 176.06
-    kode2x2 = 2376.81
-    kode2y2 = 230.172
+    kode2x1 = 2155
+    kode2y1 = 175
+    kode2x2 = 2240
+    kode2y2 = 220
     kode2 = im.crop((kode2x1,kode2y1,kode2x2,kode2y2))
     var_kode2 = (pytesseract.image_to_string(kode2))
-    print(var_kode2)
+    kode2_replace = (var_kode2.replace("O","0"))
+    print(kode2_replace)
     return var_kode2
 
 def proposal(fs,SAVE_REMOVELOGO,context,nama_file):
