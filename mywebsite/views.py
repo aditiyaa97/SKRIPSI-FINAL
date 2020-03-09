@@ -46,6 +46,7 @@ def upload(request):
                 removelogo(fs,UPLOAD_FOLDER,context,nama_file)
                 kode1(fs,SAVE_REMOVELOGO,context,nama_file)
                 kode2(fs,SAVE_REMOVELOGO,context,nama_file)
+                kode3(fa,SAVE_REMOVELOGO,context,nama_file)
                 proposal(fs,SAVE_REMOVELOGO,context,nama_file)
                 judul(fs,SAVE_REMOVELOGO,context,nama_file)
                 nama(fs,SAVE_REMOVELOGO,context,nama_file)
@@ -96,7 +97,179 @@ def kode2(fa,SAVE_REMOVELOGO,context,nama_file):
     var_kode2 = (pytesseract.image_to_string(kode2))
     kode2_replace = (var_kode2.replace("O","0"))
     print(kode2_replace)
-    return var_kode2
+    return kode2_replace
+
+def kode3(fa,SAVE_REMOVELOGO,context,nama_file):
+    im = Image.open(SAVE_REMOVELOGO + nama_file)
+    kode3x1 = 2008
+    kode3y1 = 250
+    kode3x2 = 2378
+    kode3y2 = 305
+    kode3 = im.crop((kode3x1,kode3y1,kode3x2,kode3y2))
+    var_kode3 = (pytesseract.image_to_string(kode3))
+    kode3_replace = (var_kode3.replace("O","0"))
+    print(kode3_replace)
+    if(kode3_replace=="HW01"):
+        print("Printed circuit boards")
+    elif(kode3_replace=="HW02"):
+        print("Communication hardware, interfaces and storage")
+    elif(kode3_replace=="HW03"):
+        print("Integrated circuits")
+    elif(kode3_replace=="HW04"):
+        print("Very large scale integration design")
+    elif(kode3_replace=="HW05"):
+        print("Power and energy")
+    elif(kode3_replace=="HW06"):
+        print("Electronic design automation")
+    elif(kode3_replace=="HW07"):
+        print("Hardware validation")
+    elif(kode3_replace=="HW08"):
+        print("Hardware test")
+    elif(kode3_replace=="HW09"):
+        print("Robustness")
+    elif(kode3_replace=="HW10"):
+        print("RobusEmerging technologiestness")
+    elif(kode3_replace=="CO01"):
+        print("Architectures")
+    elif(kode3_replace=="CO02"):
+        print("Embedded and cyber-physical systems")
+    elif(kode3_replace=="CO03"):
+        print("Real-time systems")
+    elif(kode3_replace=="CO04"):
+        print("Dependable and fault-tolerant systems and networks")
+    elif(kode3_replace=="NW01"):
+        print("Network architectures")
+    elif(kode3_replace=="NW02"):
+        print("Network protocols")
+    elif(kode3_replace=="NW03"):
+        print("Network components")
+    elif(kode3_replace=="NW04"):
+        print("Network algorithms")
+    elif(kode3_replace=="NW05"):
+        print("Network performance evaluation")
+    elif(kode3_replace=="NW06"):
+        print("Network properties")
+    elif(kode3_replace=="NW07"):
+        print("Network services")
+    elif(kode3_replace=="NW08"):
+        print("Network types")
+    elif(kode3_replace=="SE01"):
+        print("Software organization and properties")
+    elif(kode3_replace=="SE02"):
+        print("Software notations and tools")
+    elif(kode3_replace=="SE03"):
+        print("Software creation and management")
+    elif(kode3_replace=="TC01"):
+        print("Models of computation")
+    elif(kode3_replace=="TC02"):
+        print("Formal languages and automata theory")
+    elif(kode3_replace=="TC03"):
+        print("Computational complexity and cryptography")
+    elif(kode3_replace=="TC04"):
+        print("Logic")
+    elif(kode3_replace=="TC05"):
+        print("Design and analysis of algorithms")
+    elif(kode3_replace=="TC06"):
+        print("Randomness, geometry and discrete structures")
+    elif(kode3_replace=="TC07"):
+        print("Theory and algorithms for application domains")
+    elif(kode3_replace=="TC08"):
+        print("Semantics and reasoning")
+    elif(kode3_replace=="MC01"):
+        print("Discrete mathematics")
+    elif(kode3_replace=="MC02"):
+        print("Probability and statistics")
+    elif(kode3_replace=="MC03"):
+        print("Mathematical software")
+    elif(kode3_replace=="MC04"):
+        print("Information theory")
+    elif(kode3_replace=="MC05"):
+        print("Mathematical analysis")
+    elif(kode3_replace=="MC06"):
+        print("Continuous mathematics")
+    elif(kode3_replace=="IS01"):
+        print("Data management systems")
+    elif(kode3_replace=="IS02"):
+        print("Information storage systems")
+    elif(kode3_replace=="IS03"):
+        print("Information systems applications")
+    elif(kode3_replace=="IS04"):
+        print("World Wide Web")
+    elif(kode3_replace=="IS05"):
+        print("Information retrieval")
+    elif(kode3_replace=="SP01"):
+        print("Cryptography")
+    elif(kode3_replace=="SP02"):
+        print("Formal methods and theory of security")
+    elif(kode3_replace=="SP03"):
+        print("Security services")
+    elif(kode3_replace=="SP04"):
+        print("Intrusion/anomaly detection and malware mitigation")
+    elif(kode3_replace=="SP05"):
+        print("Security in hardware")
+    elif(kode3_replace=="SP06"):
+        print("Systems security")
+    elif(kode3_replace=="SP07"):
+        print("Network security")
+    elif(kode3_replace=="SP08"):
+        print("Database and storage security")
+    elif(kode3_replace=="SP09"):
+        print("Software and application security")
+    elif(kode3_replace=="SP10"):
+        print("Human and societal aspects of security and privacy")
+    elif(kode3_replace=="HC01"):
+        print("Human computer interaction")
+    elif(kode3_replace=="HC02"):
+        print("Interaction design")
+    elif(kode3_replace=="HC03"):
+        print("Collaborative and social computing")
+    elif(kode3_replace=="HC04"):
+        print("Ubiquitous and mobile computing")
+    elif(kode3_replace=="HC05"):
+        print("Visualization")
+    elif(kode3_replace=="HC06"):
+        print("Accessibility")
+    elif(kode3_replace=="CM01"):
+        kode3_replace("Symbolic and algebraic manipulation")
+    elif(kode3_replace=="CM02"):
+        print("Parallel computing methodologies")
+    elif(kode3_replace=="CM03"):
+        print("Artificial intelligence")
+    elif(kode3_replace=="CM04"):
+        print("Machine learning")
+    elif(kode3_replace=="CM05"):
+        print("Modeling and simulation")
+    elif(kode3_replace=="CM06"):
+        print("Computer graphics")
+    elif(kode3_replace=="CM07"):
+        print("Distributed computing methodologies")
+    elif(kode3_replace=="CM08"):
+        print("Concurrent computing methodologies")
+    elif(kode3_replace=="AC01"):
+        print("Electronic commerce")
+    elif(kode3_replace=="AC02"):
+        print("Enterprise computing")
+    elif(kode3_replace=="AC03"):
+        print("Physical sciences and engineering")
+    elif(kode3_replace=="AC04"):
+        print("Life and medical sciences")
+    elif(kode3_replace=="AC05"):
+        print("Law, social and behavioral sciences")
+    elif(kode3_replace=="AC06"):
+        print("Computer forensics")
+    elif(kode3_replace=="AC07"):
+        print("Arts and humanities")
+    elif(kode3_replace=="AC08"):
+        print("Computers in other domains")
+    elif(kode3_replace=="AC09"):
+        print("Operations research")
+    elif(kode3_replace=="AC10"):
+        print("Education")
+    elif(kode3_replace=="AC11"):
+        print("Document management and text processing")
+    else:
+        print("Kode Penelitian tidak ditemukan")
+    return kode3_replace
 
 def proposal(fs,SAVE_REMOVELOGO,context,nama_file):
     im = Image.open(SAVE_REMOVELOGO + nama_file)

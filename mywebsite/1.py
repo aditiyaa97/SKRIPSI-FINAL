@@ -3,6 +3,7 @@ import pytesseract
 import datetime
 
 im = Image.open('Proposal_Aditiya.jpeg')
+print(im)
 
 def kode1():
     kode1x1 = 2008.17
